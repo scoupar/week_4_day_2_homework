@@ -28,7 +28,7 @@ def select(id):
     result =run_sql(sql, values)[0]
 
     if result is not None:
-        artist = artist_repository.select(result['artist_id']) #???
+        artist = artist_repository.select(result['artist_id'])
         album = Album(result['title'], artist, result['genre'], result['id'])
     return album
 
@@ -47,8 +47,11 @@ def select_all():
 # Extensions
 
 def delete(id):
-    pass
-
+    sql = "DELETE FROM albums WHERE id =%s"
+    values = [id]
+    run_sql(sql, values)
 
 def update(album):
-    pass
+    sql ="UPDATE albums SET (title, artist_id, genre) = (%s, %s, %s) WHERE id = %s"
+    values = [album.title, album.artist.id, album.genre, album.id]
+    run_sql(sql, values)
